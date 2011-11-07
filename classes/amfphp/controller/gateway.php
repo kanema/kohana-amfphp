@@ -160,6 +160,14 @@ abstract class Amfphp_Controller_Gateway extends Controller {
         
         if ($this->safe_mode())
         {
+            foreach ($this->request->query() as $key => $value)
+            {
+                $decoded = @json_decode($value); 
+                if ($decoded)
+                {
+                    $this->request->query($key, $decoded);
+                }
+            }
             $this->data = $this->request->query();
             array_shift($this->data);
         }
