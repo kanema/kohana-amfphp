@@ -140,19 +140,19 @@ abstract class Amfphp_Controller_Gateway extends Controller {
 
         // Get Parameters
         $method_parameters = $method->getParameters();
-
-        if (count($method_parameters > 1) AND isset($this->data[0]) AND $this->data[0] instanceof stdClass)
+        
+        if (count($method_parameters > 1) OR (isset($this->data[0]) AND $this->data[0] instanceof stdClass))
         {
             $this->data = $this->data[0];
             $temp_parameters = array();
-            
+
             foreach ($method_parameters as $key => $parameter)
             {
                 $name = $parameter->name;
                 
-                $temp_parameters[$key] = $this->data->$name;
+                $temp_parameters[$key] = (isset($this->data->$name) ? $this->data->$name : NULL);
 				
-				Amf::instance()->params($name, $this->data->$name);
+				Amf::instance()->params($name, $temp_parameters[$key]);
             }
 
             $this->data = $temp_parameters;
