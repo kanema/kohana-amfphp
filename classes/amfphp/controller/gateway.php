@@ -225,9 +225,12 @@ abstract class Amfphp_Controller_Gateway extends Controller {
         $path = 'classes'.DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'amf'.DIRECTORY_SEPARATOR;
         
         $services = array();
-        foreach (Kohana::list_files('classes\controller\amf') as $name => $file)
+        
+	//Modified by Trevor Sonic
+	foreach (Kohana::list_files($path) as $name => $file)
         {
-			$name = str_replace(array($path, EXT), '', $name);
+        		//Modified by Trevor Sonic
+			$name = str_replace(array($path.DIRECTORY_SEPARATOR, EXT), '', $name);
 			
 			$class = 'Controller_Amf_'.$name;
 			$reflection = new ReflectionClass($class);
